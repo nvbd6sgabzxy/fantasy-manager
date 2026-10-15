@@ -1,0 +1,5 @@
+.env
+.env~
+__pycache__/
+cloudflare/manager-trigger/.wrangler
+cloudflare/injury-trigger/.wrangler

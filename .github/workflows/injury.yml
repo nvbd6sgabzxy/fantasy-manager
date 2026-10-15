@@ -1,0 +1,57 @@
+name: NFL Injury Predictor
+
+on:
+  repository_dispatch:
+    types: [injury-trigger]
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  run-predictor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: Production
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install Dependencies
+        run: |
+          uv pip install --system numpy pandas nflreadpy xgboost scikit-learn statsmodels pyarrow
+
+      - name: Run Injury Predictor
+        run: |
+          echo "Running Injury Predictor"
+          python injury.py
+
+      - name: Configure Git User
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Stage and commit changes
+        run: |
+          git status
+          # Add only the specific output file or directory to avoid committing unintended changes
+          git add data/injury.csv
+
+          # Check if there are changes to commit (prevents errors if the file didn't change)
+          git diff --staged --quiet || git commit -m "Auto-generated output from GitHub Actions [skip ci]"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

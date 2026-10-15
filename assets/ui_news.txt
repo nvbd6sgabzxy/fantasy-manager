@@ -1,0 +1,70 @@
+
+ Breaking News [lightning bolt emoji]
+
+ [Trigger reason]
+
+1. Manager's Thoughts [brain emoji]
+
+ [Concise explanation of immediate lineup and news impact. Strictly <= 1020 characters]
+
+2. Optimized Lineup [diamond emoji]
+
+``diff
+     QB: Player Name (Team)
+     RB: Player Name (Team) [FA]
+     RB: Player Name (Team)
+     RB: Player Name (Team)
+     WR: Player Name (Team)
++    WR: Player Name (Team) [^]
+  WR/TE: Player Name (Team)
++ WR/TE: Player Name (Team) [FA]
+  WR/TE: Player Name (Team)
+     OP: Player Name (Team)
++    LB: Player Name (Team) [↓]
+     LB: Player Name (Team)
++    DL: Player Name (Team) [W]
+     DL: Player Name (Team)
+     DB: Player Name (Team)
+     DB: Player Name (Team)
+```
+
+3. Optimized Bench [chair emoji]
+
+```diff
+  BE: Player Name (Team)
+      [1: Superflex Insurance]
+  BE: Player Name (Team)
+      [2: High Floor Handcuff]
++ BE: Player Name (Team) [W]
+      [3: High Floor Handcuff]
+  BE: Player Name (Team)
+      [4: Flex Depth] 
+  BE: Player Name (Team)
+      [5: Flex Depth]
+  BE: Player Name (Team)
+      [6: IDP Stream Depth]
+  BE: Player Name (Team)
+      [7: Upside Flyer]
++ BE: Player Name (Team) [FA]
+      [8: Upside Flyer]
++ BE: Player Name (Team) [↓]
+      [9: Upside Flyer]
+```
+
+4. Injury Reserve [crutch emoji]
+
+```diff
+  IR: Player Name (Team)
++ IR: Player Name (Team) [↓]
+```
+
+5. Drops [trash can emoji]
+
+```diff
+ - Player Name (Team)
+ - Player Name (Team)
+ - Player Name (Team)
+ - Player Name (Team)
+ - Player Name (Team)
+```
+  

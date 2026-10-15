@@ -1,0 +1,52 @@
+name: Fantasy Manager Agent
+
+on:
+  repository_dispatch:
+    types: [manager-trigger]
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    environment: Production
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install Dependencies
+        run: |
+          uv pip install --system espn-api feedparser google-genai pydantic rich tenacity pulp requests numpy pandas nflreadpy pyarrow
+
+      - name: Run Handcuff Generator
+        run: |
+          echo "Running Handcuff Generator"
+          python handcuff.py
+
+      - name: Run Manager Agent
+        env:
+          TRIGGER_REASON: ${{ github.event.client_payload.reason }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
+          GEMINI_FALLBACK_MODEL: ${{ secrets.GEMINI_FALLBACK_MODEL }}
+          ESPN_LEAGUE_ID: ${{ secrets.ESPN_LEAGUE_ID }}
+          ESPN_TEAM_ID: ${{ secrets.ESPN_TEAM_ID }}
+          ESPN_YEAR: ${{ secrets.ESPN_YEAR }}
+          # Mandatory for private leagues; optional for public leagues
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          ESPN_SWID: ${{ secrets.ESPN_SWID }}
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+        run: |
+          echo "Running Fantasy Manager for reason: $TRIGGER_REASON"
+          python manager.py

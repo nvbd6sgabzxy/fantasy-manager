@@ -1,0 +1,10 @@
+name = "manager-trigger"
+main = "manager-trigger.js"
+compatibility_date = "2026-08-29"
+
+[triggers]
+crons = ["*/10 * * * *"]
+
+[[kv_namespaces]]
+binding = "SEEN_KV"
+# id = "<your namespace ID>"
